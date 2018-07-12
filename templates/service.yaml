@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "rasa-chart.fullname" . }}
+  labels:
+    app: {{ template "rasa-chart.name" . }}
+    chart: {{ template "rasa-chart.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 5000
+      protocol: TCP
+      name: rasa-nlu
+  selector:
+    app: {{ template "rasa-chart.name" . }}
+    release: {{ .Release.Name }}
